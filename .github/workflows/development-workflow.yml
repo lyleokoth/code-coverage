@@ -153,3 +153,40 @@ jobs:
         sleep 10
         curl http://127.0.0.1:5000/
         curl http://127.0.0.1:5000/users
+
+  DeployDev:
+    name: Deploy to Dev
+    # if: github.event_name == 'pull_request'
+    needs: [Test-Local]
+    runs-on: ubuntu-latest
+    environment:
+      name: Development
+
+    steps:
+
+      - name: Deploy
+        run: echo I am deploying the api to Linode
+
+      - name: Deploy to Ubuntu Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST_IP}}
+          username: ${{secrets.USER_NAME}}
+          password: ${{secrets.USER_PASSWORD}}
+          script: |
+            cd code-coverage
+            git pull
+            echo ${{secrets.USER_PASSWORD}} | sudo -S systemctl restart gunicorn
+
+  Test-Remote:
+    name: Test Remote Deployment
+    needs: [DeployDev]
+    runs-on: ubuntu-latest
+    environment:
+      name: Development
+
+    steps:
+    - name: Test application
+      run: |
+        sleep 5
+        curl ${{ secrets.HOST_IP  }} | grep "template api"
