@@ -15,7 +15,7 @@ default = Blueprint('default', __name__, template_folder='templates', static_fol
 def default_route():
     """Confirm that the application is working."""
     app_logger.info("Successfully handled a GET request to the '/' route. Returning the default message.")
-    return jsonify({'hello': 'from template api'}), 200
+    return jsonify({'hello': 'from template api auto-updated!'}), 200
 
 
 @default.route('/user', methods=['POST'])

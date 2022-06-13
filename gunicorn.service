@@ -5,10 +5,10 @@ After=network.target
 [Service]
 User=lyle
 Group=lyle
-WorkingDirectory=/home/lyle/api-template-v4
-Environment="PATH=/home/lyle/api-template-v4/venv/bin"
+WorkingDirectory=/home/lyle/code-coverage
+Environment="PATH=/home/lyle/code-coverage/venv/bin"
 EnvironmentFile=/home/lyle/.env
-ExecStart=/home/lyle/api-template-v4/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 main:app
+ExecStart=/home/lyle/code-coverage/venv/bin/gunicorn --workers 4 --bind 0.0.0.0:5000 main:app
 
 [Install]
 WantedBy=multi-user.target
