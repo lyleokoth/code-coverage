@@ -30,7 +30,7 @@ class TestingConfig(BaseConfig):
     TESTING = True
 
     POSTGRES_HOST = os.environ['POSTGRES_HOST']
-    POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_test"
+    POSTGRES_DB = os.environ['POSTGRES_DB']
     POSTGRES_PORT = os.environ['POSTGRES_PORT']
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
@@ -48,7 +48,7 @@ class DevelopmentConfig(BaseConfig):
     TESTING = False
 
     POSTGRES_HOST = os.environ['POSTGRES_HOST']
-    POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_dev"
+    POSTGRES_DB = os.environ['POSTGRES_DB']
     POSTGRES_PORT = os.environ['POSTGRES_PORT']
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
@@ -66,7 +66,7 @@ class StagingConfig(BaseConfig):
     TESTING = False
 
     POSTGRES_HOST = os.environ['POSTGRES_HOST']
-    POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_stage"
+    POSTGRES_DB = os.environ['POSTGRES_DB']
     POSTGRES_PORT = os.environ['POSTGRES_PORT']
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
@@ -84,7 +84,7 @@ class ProductionConfig(BaseConfig):
     TESTING = False
 
     POSTGRES_HOST = os.environ['POSTGRES_HOST']
-    POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_prod"
+    POSTGRES_DB = os.environ['POSTGRES_DB']
     POSTGRES_PORT = os.environ['POSTGRES_PORT']
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']

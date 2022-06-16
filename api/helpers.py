@@ -85,22 +85,7 @@ def create_db_conn_string(flask_env: str) -> str:
     POSTGRES_PORT = os.environ['POSTGRES_PORT']
     POSTGRES_USER = os.environ['POSTGRES_USER']
     POSTGRES_PASSWORD = os.environ['POSTGRES_PASSWORD']
-
-    if flask_env == 'development':
-        app_logger.info(f"The environment is development and the postgres db used is {os.environ['POSTGRES_DB']}_dev")
-        POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_dev"
-    elif flask_env == 'test':
-        app_logger.info(f"The environment is test and the postgres db used is {os.environ['POSTGRES_DB']}_test")
-        POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_test"
-    elif flask_env == 'stage':
-        app_logger.info(f"The environment is staging and the postgres db used is {os.environ['POSTGRES_DB']}_stage")
-        POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_stage"
-    elif flask_env == 'production':
-        app_logger.info(f"The environment is production and the postgres db used is {os.environ['POSTGRES_DB']}_prod")
-        POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_prod"
-    else:
-        app_logger.info(f"The environment is unknown so the postgres db used is {os.environ['POSTGRES_DB']}_dev")
-        POSTGRES_DB = f"{os.environ['POSTGRES_DB']}_dev"
+    POSTGRES_DB = os.environ['POSTGRES_DB']
 
     return f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
 

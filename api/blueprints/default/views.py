@@ -2,9 +2,8 @@
 """This module contains the routes associated with the default Blueprint."""
 from json import JSONDecodeError
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, redirect, request, url_for
 
-from ..extensions import app_logger
 from .helpers import handle_create_user, handle_delete_user, handle_get_user, handle_update_user
 from .models import User
 
@@ -14,8 +13,14 @@ default = Blueprint('default', __name__, template_folder='templates', static_fol
 @default.route('/', methods=['GET'])
 def default_route():
     """Confirm that the application is working."""
-    app_logger.info("Successfully handled a GET request to the '/' route. Returning the default message.")
-    return jsonify({'hello': 'from template api auto-updated!'}), 200
+    return redirect(url_for('auth.register')), 302
+
+
+@default.route('/home', methods=['GET'])
+@default.route('/index', methods=['GET'])
+def home():
+    """Confirm that the application is working."""
+    return jsonify({'hello': 'from template api'}), 200
 
 
 @default.route('/user', methods=['POST'])
@@ -33,15 +38,13 @@ def create_user():
 @default.route('/user', methods=['GET'])
 def get_user():
     """Get a user with the given id."""
-    app_logger.info("Handling a GET request to '/user' route.")
     try:
         user_id = int(request.args.get('id'))
-    except TypeError as e:
-        app_logger.exception(e)
-        app_logger.error('GET request unsuccessful. This error is cause by not supplying the user id')
+    except ValueError as e:
+        print(e)
+        print('This error is cause by not supplying the user id')
         return 'The user id was not provided or the id is invalid.', 400
     else:
-        app_logger.info(f"GET request succeessful. Returning user with id {user_id}.")
         return handle_get_user(user_id)
 
 
@@ -78,7 +81,5 @@ def delete_user():
 @default.route('/users', methods=['GET'])
 def all_users():
     """Get all the users."""
-    app_logger.info("Handling a GET request to '/users' route.")
     users = User.query.all()
-    app_logger.info("Successfully handled a GET request to the '/users' route. Returning all the users.")
     return jsonify(users), 200

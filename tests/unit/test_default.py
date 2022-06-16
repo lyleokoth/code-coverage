@@ -9,7 +9,7 @@ def test_default(client):
     WHEN we send a GET request
     THEN we should get a 200 OK response
     """
-    resp = client.get('/')
+    resp = client.get('/home')
     assert resp.status_code == 200
 
 
@@ -20,5 +20,5 @@ def test_home_bad_http_method(client):
     WHEN we send a POST request
     THEN we should get a 405 error code in the response
     """
-    resp = client.post('/')
+    resp = client.post('/home')
     assert resp.status_code == 405
