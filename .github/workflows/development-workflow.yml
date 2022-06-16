@@ -112,6 +112,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     needs: [Build]
 
     strategy:
@@ -133,12 +134,13 @@ jobs:
         if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Create the Environment variables
+    - name: Create the Development Environment variables
       run: |
         touch .env
         echo FLASK_APP=${{secrets.FLASK_APP}} >> .env
         echo FLASK_ENV=${{secrets.FLASK_ENV}} >> .env
         echo SECRET_KEY=${{secrets.SECRET_KEY}} >> .env
+
         echo POSTGRES_HOST=${{secrets.POSTGRES_HOST}} >> .env
         echo POSTGRES_DB=${{secrets.POSTGRES_DB}} >> .env
         echo POSTGRES_PORT=${{secrets.POSTGRES_PORT}} >> .env
@@ -154,6 +156,7 @@ jobs:
         python manage.py run &
         sleep 10
         curl http://127.0.0.1:5000/home
+
 
   # DeployDev:
   #   name: Deploy to Dev
@@ -238,4 +241,3 @@ jobs:
       run: |
         sleep 20
         curl https://${{env.APP_NAME}}-dev.herokuapp.com/home
-
