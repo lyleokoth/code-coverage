@@ -7,6 +7,9 @@ on:
     branches: [ development ]
   workflow_dispatch:
 
+env:
+  APP_NAME: oryks-code-coverage
+
 jobs:
 
   Build:
@@ -154,39 +157,86 @@ jobs:
         curl http://127.0.0.1:5000/home
         curl http://127.0.0.1:5000/users
 
+  # DeployDev:
+  #   name: Deploy to Dev
+  #   # if: github.event_name == 'pull_request'
+  #   needs: [Test-Local]
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: Development
+
+  #   steps:
+
+  #     - name: Deploy
+  #       run: echo I am deploying the api to Linode
+
+  #     - name: Deploy to Ubuntu Server
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{secrets.HOST_IP}}
+  #         username: ${{secrets.USER_NAME}}
+  #         password: ${{secrets.USER_PASSWORD}}
+  #         script: |
+  #           cd ${{ secrets.APP_DIR}}
+  #           git pull
+  #           echo ${{secrets.USER_PASSWORD}} | sudo -S systemctl restart ${{ secrets.SERVICE_NAME }}
+
+  # Test-Remote:
+  #   name: Test Remote Deployment
+  #   needs: [DeployDev]
+  #   runs-on: ubuntu-latest
+  #   environment:
+  #     name: Development
+
+  #   steps:
+  #   - name: Test application
+  #     run: |
+  #       sleep 5
+  #       curl ${{ secrets.HOST_IP  }}/home | grep "template api"
+
   DeployDev:
+
     name: Deploy to Dev
-    # if: github.event_name == 'pull_request'
+
     needs: [Test-Local]
+
     runs-on: ubuntu-latest
+
     environment:
       name: Development
+      url: 'https://${{env.APP_NAME}}-dev.herokuapp.com/'
 
     steps:
-
       - name: Deploy
-        run: echo I am deploying the api to Linode
-
-      - name: Deploy to Ubuntu Server
-        uses: appleboy/ssh-action@master
+        run: echo I am deploying ${{ env.APP_NAME }} at https://${{env.APP_NAME}}-dev.herokuapp.com/
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
-          host: ${{secrets.HOST_IP}}
-          username: ${{secrets.USER_NAME}}
-          password: ${{secrets.USER_PASSWORD}}
-          script: |
-            cd ${{ secrets.APP_DIR}}
-            git pull
-            echo ${{secrets.USER_PASSWORD}} | sudo -S systemctl restart ${{ secrets.SERVICE_NAME }}
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "${{ env.APP_NAME }}-dev" #Must be unique in Heroku
+          heroku_email: "${{ secrets.HEROKU_EMAIL }}"
+        env:
+          HD_FLASK_ENV: ${{secrets.FLASK_ENV}}
+          HD_FLASK_APP: ${{secrets.FLASK_APP}}
+          HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
+          HD_POSTGRES_HOST: ${{secrets.POSTGRES_HOST}}
+          HD_POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+          HD_POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
+          HD_POSTGRES_USER: ${{secrets.POSTGRES_USER}}
+          HD_POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+
 
   Test-Remote:
+
     name: Test Remote Deployment
+
     needs: [DeployDev]
+
     runs-on: ubuntu-latest
-    environment:
-      name: Development
 
     steps:
+
     - name: Test application
       run: |
-        sleep 5
-        curl ${{ secrets.HOST_IP  }} | grep "template api"
+        sleep 20
+        curl https://${{env.APP_NAME}}-dev.herokuapp.com/home
