@@ -21,7 +21,7 @@ jobs:
           POSTGRES_USER: ${{secrets.POSTGRES_USER}}
           POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
           POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
-          POSTGRES_DB: ${{secrets.POSTGRES_DB}}_test
+          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
         ports:
           - 5432:5432
         options: >-
@@ -101,7 +101,7 @@ jobs:
           POSTGRES_USER: ${{secrets.POSTGRES_USER}}
           POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
           POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
-          POSTGRES_DB: ${{secrets.POSTGRES_DB}}_dev
+          POSTGRES_DB: ${{secrets.POSTGRES_DB}}
         ports:
           - 5432:5432
         options: >-
@@ -153,5 +153,5 @@ jobs:
         python manage.py seed_db
         python manage.py run &
         sleep 10
-        curl http://127.0.0.1:5000/
+        curl http://127.0.0.1:5000/home
         curl http://127.0.0.1:5000/users
