@@ -11,6 +11,7 @@ default = Blueprint('default', __name__, template_folder='templates', static_fol
 
 @default.route('/', methods=['GET'])
 @default.route('/index', methods=['GET'])
+@default.route('/home', methods=['GET'])
 def home():
     """Confirm that the application is working."""
     if current_user:

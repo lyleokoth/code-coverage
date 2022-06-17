@@ -68,11 +68,19 @@ jobs:
         echo FLASK_APP=${{secrets.FLASK_APP}} >> .env
         echo FLASK_ENV=${{secrets.FLASK_ENV}} >> .env
         echo SECRET_KEY=${{secrets.SECRET_KEY}} >> .env
+
         echo POSTGRES_HOST=${{secrets.POSTGRES_HOST}} >> .env
         echo POSTGRES_DB=${{secrets.POSTGRES_DB}} >> .env
         echo POSTGRES_PORT=${{secrets.POSTGRES_PORT}} >> .env
         echo POSTGRES_USER=${{secrets.POSTGRES_USER}} >> .env
         echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}} >> .env
+
+        echo CLIENT_ID=${{secrets.CLIENT_ID}}
+        echo CLIENT_SECRET=${{secrets.CLIENT_SECRET}}
+        echo OAUTHLIB_INSECURE_TRANSPORT=${{secrets.OAUTHLIB_INSECURE_TRANSPORT}}
+
+        echo JWT_ACCESS_TOKEN_EXPIRES=${{secrets.JWT_ACCESS_TOKEN_EXPIRES}}
+        echo JWT_REFRESH_TOKEN_EXPIRES=${{secrets.JWT_REFRESH_TOKEN_EXPIRES}}
 
     - name: Create the test tables
       run: |
@@ -146,6 +154,13 @@ jobs:
         echo POSTGRES_PORT=${{secrets.POSTGRES_PORT}} >> .env
         echo POSTGRES_USER=${{secrets.POSTGRES_USER}} >> .env
         echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}} >> .env
+
+        echo CLIENT_ID=${{secrets.CLIENT_ID}}
+        echo CLIENT_SECRET=${{secrets.CLIENT_SECRET}}
+        echo OAUTHLIB_INSECURE_TRANSPORT=${{secrets.OAUTHLIB_INSECURE_TRANSPORT}}
+
+        echo JWT_ACCESS_TOKEN_EXPIRES=${{secrets.JWT_ACCESS_TOKEN_EXPIRES}}
+        echo JWT_REFRESH_TOKEN_EXPIRES=${{secrets.JWT_REFRESH_TOKEN_EXPIRES}}
 
     - name: Create the development tables
       run: |
@@ -225,6 +240,11 @@ jobs:
           HD_POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
           HD_POSTGRES_USER: ${{secrets.POSTGRES_USER}}
           HD_POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+          HD_CLIENT_ID: ${{secrets.CLIENT_ID}}
+          HD_CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+          HD_OAUTHLIB_INSECURE_TRANSPORT: ${{secrets.OAUTHLIB_INSECURE_TRANSPORT}}
+          HD_JWT_ACCESS_TOKEN_EXPIRES: ${{secrets.JWT_ACCESS_TOKEN_EXPIRES}}
+          HD_JWT_REFRESH_TOKEN_EXPIRES: ${{secrets.JWT_REFRESH_TOKEN_EXPIRES}}
 
 
   Test-Remote:
