@@ -3,9 +3,13 @@
 import logging
 import os
 
+from flask_login import LoginManager
+from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
+login_manager = LoginManager()
+ma = Marshmallow()
 
 
 def create_logger():

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """This module contain the confuguration for the application."""
 import os
+from datetime import timedelta
 
 
 class BaseConfig():
@@ -20,6 +21,12 @@ class BaseConfig():
     db_conn_string = f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
     SQLALCHEMY_DATABASE_URI = db_conn_string
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    CLIENT_ID = os.environ['CLIENT_ID']
+    CLIENT_SECRET = os.environ['CLIENT_SECRET']
+
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=int(os.environ['JWT_ACCESS_TOKEN_EXPIRES']))
+    JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=int(os.environ['JWT_REFRESH_TOKEN_EXPIRES']))
 
 
 class TestingConfig(BaseConfig):
