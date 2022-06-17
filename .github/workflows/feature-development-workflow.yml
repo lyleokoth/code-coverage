@@ -71,12 +71,12 @@ jobs:
         echo POSTGRES_USER=${{secrets.POSTGRES_USER}} >> .env
         echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}} >> .env
 
-        echo CLIENT_ID=${{secrets.CLIENT_ID}}
-        echo CLIENT_SECRET=${{secrets.CLIENT_SECRET}}
-        echo OAUTHLIB_INSECURE_TRANSPORT=${{secrets.OAUTHLIB_INSECURE_TRANSPORT}}
+        echo CLIENT_ID=${{secrets.CLIENT_ID}} >> .env
+        echo CLIENT_SECRET=${{secrets.CLIENT_SECRET}} >> .env
+        echo OAUTHLIB_INSECURE_TRANSPORT=${{secrets.OAUTHLIB_INSECURE_TRANSPORT}} >> .env
 
-        echo JWT_ACCESS_TOKEN_EXPIRES=${{secrets.JWT_ACCESS_TOKEN_EXPIRES}}
-        echo JWT_REFRESH_TOKEN_EXPIRES=${{secrets.JWT_REFRESH_TOKEN_EXPIRES}}
+        echo JWT_ACCESS_TOKEN_EXPIRES=${{secrets.JWT_ACCESS_TOKEN_EXPIRES}} >> .env
+        echo JWT_REFRESH_TOKEN_EXPIRES=${{secrets.JWT_REFRESH_TOKEN_EXPIRES}} >> .env
 
     - name: Create the test tables
       run: |
@@ -151,12 +151,12 @@ jobs:
         echo POSTGRES_USER=${{secrets.POSTGRES_USER}} >> .env
         echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}} >> .env
 
-        echo CLIENT_ID=${{secrets.CLIENT_ID}}
-        echo CLIENT_SECRET=${{secrets.CLIENT_SECRET}}
-        echo OAUTHLIB_INSECURE_TRANSPORT=${{secrets.OAUTHLIB_INSECURE_TRANSPORT}}
+        echo CLIENT_ID=${{secrets.CLIENT_ID}} >> .env
+        echo CLIENT_SECRET=${{secrets.CLIENT_SECRET}} >> .env
+        echo OAUTHLIB_INSECURE_TRANSPORT=${{secrets.OAUTHLIB_INSECURE_TRANSPORT}} >> .env
 
-        echo JWT_ACCESS_TOKEN_EXPIRES=${{secrets.JWT_ACCESS_TOKEN_EXPIRES}}
-        echo JWT_REFRESH_TOKEN_EXPIRES=${{secrets.JWT_REFRESH_TOKEN_EXPIRES}}
+        echo JWT_ACCESS_TOKEN_EXPIRES=${{secrets.JWT_ACCESS_TOKEN_EXPIRES}} >> .env
+        echo JWT_REFRESH_TOKEN_EXPIRES=${{secrets.JWT_REFRESH_TOKEN_EXPIRES}} >> .env
 
     - name: Create the development tables
       run: |
