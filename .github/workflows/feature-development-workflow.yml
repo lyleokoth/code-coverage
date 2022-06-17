@@ -71,6 +71,13 @@ jobs:
         echo POSTGRES_USER=${{secrets.POSTGRES_USER}} >> .env
         echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}} >> .env
 
+        echo CLIENT_ID=${{secrets.CLIENT_ID}} >> .env
+        echo CLIENT_SECRET=${{secrets.CLIENT_SECRET}} >> .env
+        echo OAUTHLIB_INSECURE_TRANSPORT=${{secrets.OAUTHLIB_INSECURE_TRANSPORT}} >> .env
+
+        echo JWT_ACCESS_TOKEN_EXPIRES=${{secrets.JWT_ACCESS_TOKEN_EXPIRES}} >> .env
+        echo JWT_REFRESH_TOKEN_EXPIRES=${{secrets.JWT_REFRESH_TOKEN_EXPIRES}} >> .env
+
     - name: Create the test tables
       run: |
         python manage.py create_db
@@ -144,14 +151,19 @@ jobs:
         echo POSTGRES_USER=${{secrets.POSTGRES_USER}} >> .env
         echo POSTGRES_PASSWORD=${{secrets.POSTGRES_PASSWORD}} >> .env
 
+        echo CLIENT_ID=${{secrets.CLIENT_ID}} >> .env
+        echo CLIENT_SECRET=${{secrets.CLIENT_SECRET}} >> .env
+        echo OAUTHLIB_INSECURE_TRANSPORT=${{secrets.OAUTHLIB_INSECURE_TRANSPORT}} >> .env
+
+        echo JWT_ACCESS_TOKEN_EXPIRES=${{secrets.JWT_ACCESS_TOKEN_EXPIRES}} >> .env
+        echo JWT_REFRESH_TOKEN_EXPIRES=${{secrets.JWT_REFRESH_TOKEN_EXPIRES}} >> .env
+
     - name: Create the development tables
       run: |
         python manage.py create_db
 
     - name: Test application
       run: |
-        python manage.py seed_db
         python manage.py run &
         sleep 10
-        curl http://127.0.0.1:5000/home
-        curl http://127.0.0.1:5000/users
+        curl http://127.0.0.1:5000/
