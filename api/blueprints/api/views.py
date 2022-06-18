@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """This module contains the routes associated with the auth Blueprint."""
 import json
+from email import message
+from pprint import pprint
 
 import pandas as pd
 from flask import Blueprint, jsonify, request
@@ -34,13 +36,13 @@ def post_data():
         user_id = get_jwt_identity()
         project = Project.query.filter_by(name=data['user']['project']).first()
         if project is None:
-            cars = ["Ford", "Volvo", "BMW"]
-            project = Project(name=data['user']['project'], user_id=user_id, project_badges=cars)
+            badges = ['coverage-total']
+            project = Project(name=data['user']['project'], user_id=user_id, project_badges=badges)
             db.session.add(project)
             db.session.commit()
             # print('Creatd project.')
             project = Project.query.filter_by(name=data['user']['project']).first()
-            run = Run(project_id=project.id, results=data['data'])
+            run = Run(project_id=project.id, results=json.loads(data['data']))
             db.session.add(run)
             db.session.commit()
             # print('Created run')
@@ -51,14 +53,20 @@ def post_data():
             db.session.commit()
             # print(badge)
             return data, 201
-        run = Run(project_id=project.id, results=data['data'])
+        run = Run(project_id=project.id, results=json.loads(data['data']))
         db.session.add(run)
         db.session.commit()
         # print('Created run')
         # runs = Run.query.filter_by(project_id=1).order_by(desc(Run.id)).all()
         runs = Run.query.filter_by(project_id=1).order_by(desc(Run.id)).first()
-        # print(runs)
-        badge = Badge(run_id=runs.id)
+        # print(run
+        # pprint(runs.results)
+        df = pd.DataFrame(runs.results)
+        print(df)
+        last_row = df.iloc[-1].tolist()
+        # print(last_row)
+        coverage_total = last_row[-1]
+        badge = Badge(run_id=runs.id, label='coverage-total', message=coverage_total)
         db.session.add(badge)
         db.session.commit()
         # print(badge)
