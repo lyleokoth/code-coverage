@@ -235,11 +235,11 @@ jobs:
           HD_FLASK_ENV: ${{secrets.FLASK_ENV}}
           HD_FLASK_APP: ${{secrets.FLASK_APP}}
           HD_SECRET_KEY: ${{secrets.SECRET_KEY}}
-          HD_POSTGRES_HOST: ${{secrets.POSTGRES_HOST}}
-          HD_POSTGRES_DB: ${{secrets.POSTGRES_DB}}
+          HD_POSTGRES_HOST: ec2-52-206-182-219.compute-1.amazonaws.com
+          HD_POSTGRES_DB: d68mf6dgb2r8r9
           HD_POSTGRES_PORT: ${{secrets.POSTGRES_PORT}}
-          HD_POSTGRES_USER: ${{secrets.POSTGRES_USER}}
-          HD_POSTGRES_PASSWORD: ${{secrets.POSTGRES_PASSWORD}}
+          HD_POSTGRES_USER: oievpmwhgzuykl
+          HD_POSTGRES_PASSWORD: 76961ecc66e8bba456b3e5b3299060e32d24f4c16ef5fd26bb21d33d97988cd5
           HD_CLIENT_ID: ${{secrets.CLIENT_ID}}
           HD_CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
           HD_OAUTHLIB_INSECURE_TRANSPORT: ${{secrets.OAUTHLIB_INSECURE_TRANSPORT}}
