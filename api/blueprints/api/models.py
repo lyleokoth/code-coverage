@@ -2,7 +2,7 @@
 """This module contains the database models used by the auth blueprint."""
 from dataclasses import dataclass
 
-from sqlalchemy.dialects.postgresql import ARRAY
+from sqlalchemy.dialects.postgresql import ARRAY, JSON
 
 from ..extensions import db, ma
 
@@ -60,12 +60,12 @@ class Run(db.Model):
 
     id: int = db.Column(db.Integer, primary_key=True)
     run_id: int = db.Column(db.Integer)
-    results: str = db.Column(db.Text())
+    results: str = db.Column(JSON)
     project_id: int = db.Column(db.Integer, db.ForeignKey('project.id'))
     run_badges: int = db.relationship('Badge', backref='badge', lazy=True)
 
     def create_badges(self):
-        """Create al badges for this run."""
+        """Create all badges for this run."""
         pass  # pylint: disable=W0107
 
     def create_badge(self, badge):
@@ -106,9 +106,11 @@ class Badge(db.Model):  # pylint: disable=R0902
     labelColor: str = db.Column(db.String(50), nullable=False, default='green')
     style: str = db.Column(db.String(50), nullable=False, default='for-the-badge')
 
-    def __init__(self, run_id) -> None:
+    def __init__(self, run_id, label='coverage-total', message='lyle') -> None:
         """Create a new badge."""
         self.run_id = run_id
+        self.label = label
+        self.message = message
 
 
 class BadgeSchema(ma.Schema):
