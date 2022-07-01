@@ -88,7 +88,7 @@ def get_badge_markdown():
 
 
 @api.route('/badge/<username>/<projectname>/<badgename>', methods=['GET'])
-def get_badge(username, projectname):  # pylint: disable=R0911
+def get_badge(username, projectname, badgename):  # pylint: disable=R0911
     """Generate JSON data for the shields.io server for a single badge.
 
     Parameters
@@ -140,6 +140,17 @@ def get_badge(username, projectname):  # pylint: disable=R0911
             "schemaVersion": 1,
             "label": "error",
             "message": "missing test data",
+            "color": "red",
+            "labelColor": "green",
+            "style": "for-the-badge"
+        }
+        return jsonify(data), 400
+
+    if badgename not in ['coverage-total']:
+        data = {
+            "schemaVersion": 1,
+            "label": "error",
+            "message": "Invalid badge name",
             "color": "red",
             "labelColor": "green",
             "style": "for-the-badge"
