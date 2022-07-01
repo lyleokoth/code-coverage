@@ -46,11 +46,11 @@ def create_badge_data(passed: bool, project_id: int, run_id: int, results: dict)
         last_row = df.iloc[-1].tolist()
         coverage_total = last_row[-1]
         label = 'Coverage-Total'
-        create_badge(run_id, label, coverage_total, passed, results)  # pylint: disable=E1121
+        create_badge(run_id, label, coverage_total, passed)  # pylint: disable=E1121
     else:
         label = 'Tests'
         message = 'Failing'
-        create_badge(run_id, label, message, passed, results)  # pylint: disable=E1121
+        create_badge(run_id, label, message, passed)  # pylint: disable=E1121
 
 
 def create_badge(run_id: int, label: str, message: str, passed: bool):
