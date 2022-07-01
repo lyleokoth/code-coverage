@@ -3,8 +3,7 @@
 import pytest
 
 from api import app, db
-from api.blueprints.default.models import User
-from api.config import DevelopmentConfig, ProductionConfig, StagingConfig, TestingConfig
+from api.config.config import DevelopmentConfig, ProductionConfig, StagingConfig, TestingConfig
 
 
 @pytest.fixture

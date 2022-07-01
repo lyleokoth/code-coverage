@@ -22,9 +22,7 @@ class BaseConfig():
     SQLALCHEMY_DATABASE_URI = db_conn_string
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-    CLIENT_ID = os.environ['CLIENT_ID']
-    CLIENT_SECRET = os.environ['CLIENT_SECRET']
-
+    JWT_SECRET_KEY = 'super-secret-key'
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=int(os.environ['JWT_ACCESS_TOKEN_EXPIRES']))
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=int(os.environ['JWT_REFRESH_TOKEN_EXPIRES']))
 

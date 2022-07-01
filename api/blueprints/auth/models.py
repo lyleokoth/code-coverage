@@ -37,6 +37,15 @@ class UserLoginSchema(ma.Schema):
         fields = ('username', 'access_token', 'refresh_token')
 
 
+class UserSchema(ma.Schema):
+    """Schema for the Users Projects."""
+
+    class Meta:
+        """The fileds to expose."""
+
+        fields = ('username', 'projects')
+
+
 @dataclass
 class OAuth(OAuthConsumerMixin, db.Model):
     """This class stores the user authentication information.

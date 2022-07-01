@@ -2,27 +2,21 @@
 """This module creates the flask extensions that we will use."""
 import os
 
-from flask import redirect, url_for
 from flask_dance.consumer import oauth_authorized
 from flask_dance.consumer.storage.sqla import SQLAlchemyStorage
 from flask_dance.contrib.github import github, make_github_blueprint
-from flask_jwt_extended import (
-    JWTManager,
-    create_access_token,
-    create_refresh_token,
-    get_jwt_identity,
-)
+from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token
 from flask_login import LoginManager, current_user, login_user
 from flask_migrate import Migrate
 from sqlalchemy.orm.exc import NoResultFound
 
-from .blueprints.auth.models import OAuth, User, UserLoginSchema
+from .blueprints.auth.models import OAuth, User
 from .blueprints.extensions import db
-from .helpers import get_user_data
 
 login_manager = LoginManager()
 jwt = JWTManager()
 migrate = Migrate()
+
 
 github_blueprint = make_github_blueprint(
     client_id=os.getenv('CLIENT_ID'),
