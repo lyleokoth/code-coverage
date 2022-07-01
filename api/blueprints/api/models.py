@@ -115,6 +115,18 @@ class Badge(db.Model):  # pylint: disable=R0902
         if not passed:
             self.color = 'red'
 
+    def get_badge(self):
+        """Get the badge."""
+        data = {
+            "schemaVersion": self.schemaVersion,
+            "label": self.label,
+            "message": self.message,
+            "color": self.color,
+            "labelColor": self.labelColor,
+            "style": self.style
+        }
+        return data
+
 
 class BadgeSchema(ma.Schema):
     """Schema for the Project."""
