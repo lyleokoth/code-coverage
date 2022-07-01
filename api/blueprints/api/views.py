@@ -88,8 +88,8 @@ def get_badge_markdown():
     return badge_markdown
 
 
-@api.route('/badge/<user_id>', methods=['GET'])
-def get_badge(user_id):  # pylint: disable=R0911
+@api.route('/badge/<username>/<projectname>/<badgename>', methods=['GET'])
+def get_badge(username, projectname, badgename):  # pylint: disable=R0911
     """Generate JSON data for the shields.io server for a single badge.
 
     Parameters
@@ -110,10 +110,6 @@ def get_badge(user_id):  # pylint: disable=R0911
             "style": "style-name"
             }
     """
-    print(user_id)
-    username = 'lyleokoth'
-    projectname = 'lyleokoth/flask-social-auth'
-    badgename = 'coverage-total'
     user = User.query.filter_by(username=username).first()
     if not user:
         data = {
@@ -161,23 +157,8 @@ def get_badge(user_id):  # pylint: disable=R0911
         }
         return data, 200
 
-    colors = ['red', 'green', 'yellow', 'blue', 'orange', 'purple', 'grey']
-    styles = ['flat', 'plastic', 'flat-square', 'for-the-badge', 'social']
-    data = {
-        "schemaVersion": 1,
-        "label": "name",
-        "message": "lyle okoth",
-        "color": random.choice(colors),
-        "labelColor": random.choice(colors),
-        "style": random.choice(styles)
-    }
+    run_id = Run.query.filter_by(project_id=1).order_by(desc(Run.id)).first().id
 
-    return data, 200
+    badge = Badge.query.filter_by(run_id=run_id).first()
 
-    # run_id = Run.query.filter_by(project_id=1).order_by(desc(Run.id)).first().id
-
-    # badge = Badge.query.filter_by(run_id=run_id).first()
-    # # print(badge)
-
-    # badge_schema = BadgeSchema()
-    # return badge_schema.dump(badge), 200
+    return badge.get_badge(), 200
