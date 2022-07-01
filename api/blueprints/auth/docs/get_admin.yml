@@ -1,0 +1,24 @@
+description: Get the admin data
+tags:
+  - Administrator
+produces:
+  - "application/json"
+security:
+  - APIKeyHeader: [ 'Authorization' ]
+get:
+  description: None
+responses:
+  200:
+    description: When the admin details are successfully obtained.
+
+  400:
+    description: Fails to get admin details due to bad request data
+
+  404:
+    description: Fails to get admin details when no suchadmin exists
+
+  401:
+    description: Fails to get admin details due to missing authorization headers.
+
+  422:
+    description: Fails to get admin details due to missing segments in authorization header.

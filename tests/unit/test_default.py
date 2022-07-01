@@ -10,7 +10,7 @@ def test_default(client):
     THEN we should get a 200 OK response
     """
     resp = client.get('/')
-    assert resp.status_code == 200
+    assert resp.status_code == 302
 
 
 def test_home_bad_http_method(client):

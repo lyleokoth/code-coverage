@@ -1,0 +1,21 @@
+description: Delete the admin
+tags:
+  - Administrator
+produces:
+  - "application/json"
+security:
+  - APIKeyHeader: [ 'Authorization' ]
+get:
+  description: None
+responses:
+  200:
+    description: When the admin is successfully deleted.
+
+  404:
+    description: Fails to get admin details when no such admin exists
+
+  401:
+    description: Fails to get admin details due to missing authorization headers.
+
+  422:
+    description: Fails to get admin details due to missing segments in authorization header.

@@ -1,0 +1,27 @@
+description: Admin Login
+tags:
+  - Authentication
+parameters:
+  - name: body
+    description: The body should contain the Admin Login data
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "email"
+        - "password"
+      properties:
+        email:
+          type: "email"
+          example: "lyle@gmail.com"
+        password:
+          type: "string"
+          format: password
+          example: "********"
+responses:
+  201:
+    description: When an admin succesfully logs in.
+
+  401:
+    description: Fails to Login due to invalid credentials.

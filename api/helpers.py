@@ -29,16 +29,16 @@ def set_flask_environment(app) -> str:
     """
     try:
         if os.environ['FLASK_ENV'] == 'production':  # pragma: no cover
-            app.config.from_object('api.config.ProductionConfig')
+            app.config.from_object('api.config.config.ProductionConfig')
             app_logger.info('The FLASK_ENV is set to production. Using the production config.')
         elif os.environ['FLASK_ENV'] == 'development':  # pragma: no cover
-            app.config.from_object('api.config.DevelopmentConfig')
+            app.config.from_object('api.config.config.DevelopmentConfig')
             app_logger.info('The FLASK_ENV is set to development. Using the development config.')
         elif os.environ['FLASK_ENV'] == 'test':
-            app.config.from_object('api.config.TestingConfig')
+            app.config.from_object('api.config.config.TestingConfig')
             app_logger.info('The FLASK_ENV is set to test. Using the test config.')
         elif os.environ['FLASK_ENV'] == 'stage':
-            app.config.from_object('api.config.StagingConfig')
+            app.config.from_object('api.config.config.StagingConfig')
             app_logger.info('The FLASK_ENV is set to stage. Using the stage config.')
     except KeyError:
         app.config.from_object('api.config.DevelopmentConfig')
@@ -124,7 +124,7 @@ def check_if_database_exists(db_connection_string: str) -> bool:
     return db_exists
 
 
-def are_environment_variables_set() -> bool:  # pylint: disable=R0911, R0915
+def are_environment_variables_set() -> bool:  # pylint: disable=R0912,R0915,R0911
     """Check if all the environment variables are set.
 
     Raises
@@ -195,20 +195,75 @@ def are_environment_variables_set() -> bool:  # pylint: disable=R0911, R0915
         return False
 
     try:
+        os.environ['MAIL_HOST']  # pylint: disable=W0104
+        app_logger.info("The MAIL_HOST is set.")
+    except KeyError:
+        app_logger.exception('The MAIL_HOST is not set')
+        return False
+
+    try:
+        os.environ['MAIL_PORT']  # pylint: disable=W0104
+        app_logger.info("The MAIL_PORT is set.")
+    except KeyError:
+        app_logger.exception('The MAIL_PORT is not set')
+        return False
+
+    try:
+        os.environ['MAIL_USERNAME']  # pylint: disable=W0104
+        app_logger.info("The MAIL_USERNAME is set.")
+    except KeyError:
+        app_logger.exception('The MAIL_USERNAME is not set')
+        return False
+
+    try:
+        os.environ['AWS_KEY']  # pylint: disable=W0104
+        app_logger.info("The AWS_KEY is set.")
+    except KeyError:
+        app_logger.exception('The AWS_KEY is not set')
+        return False
+
+    try:
+        os.environ['AWS_SECRET']  # pylint: disable=W0104
+        app_logger.info("The AWS_SECRET is set.")
+    except KeyError:
+        app_logger.exception('The AWS_SECRET is not set')
+        return False
+
+    try:
+        os.environ['AWS_REGION']  # pylint: disable=W0104
+        app_logger.info("The AWS_REGION is set.")
+    except KeyError:
+        app_logger.exception('The AWS_REGION is not set')
+        return False
+
+    try:
+        os.environ['MAIL_PASSWORD']  # pylint: disable=W0104
+        app_logger.info("The MAIL_PASSWORD is set.")
+    except KeyError:
+        app_logger.exception('The MAIL_PASSWORD is not set')
+        return False
+
+    try:
+        os.environ['FIREHOSE_DELIVERY_STREAM']  # pylint: disable=W0104
+        app_logger.info(f"The FIREHOSE_DELIVERY_STREAM is set to {os.environ['FIREHOSE_DELIVERY_STREAM']}")
+    except KeyError:
+        app_logger.exception('The FIREHOSE_DELIVERY_STREAM is not set')
+        return False
+
+    try:
         db_con_str = create_db_conn_string(os.environ['FLASK_ENV'])
         db_exists = check_if_database_exists(db_con_str)
 
-        if db_exists:
-            app_logger.info(f'The database {db_con_str} exists.')
-            return True
-
-        app_logger.error(f'The database {db_con_str} does not exist.')
-        return False
+        if not db_exists:
+            app_logger.info(f'The database {db_con_str} does not exist.')
+            return False
 
     except ValueError as v:
         app_logger.exception(v)
         app_logger.exception('Unable to verify database existence...')
         return False
+
+    return True
 
 
 def get_user_data(github_data: dict) -> dict:

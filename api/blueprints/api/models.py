@@ -27,7 +27,7 @@ class Project(db.Model):
     user_id: int = db.Column(db.Integer, db.ForeignKey('user.id'))
     project_runs: int = db.relationship('Run', backref='ran', lazy=True)
     authorized: bool = db.Column(db.Boolean(), default=False, nullable=False)
-    project_badges: int = db.Column(ARRAY(db.String(10)))
+    project_badges: int = db.Column(ARRAY(db.String(100)), default=['coverage-total'])
 
 
 class ProjectSchema(ma.Schema):
@@ -53,7 +53,7 @@ class Run(db.Model):
         The id of the project that was ran
     run_time: date
         The time when the project was run
-    results: str
+    results: dict
         The run results
 
     """
@@ -63,6 +63,7 @@ class Run(db.Model):
     results: str = db.Column(JSON)
     project_id: int = db.Column(db.Integer, db.ForeignKey('project.id'))
     run_badges: int = db.relationship('Badge', backref='badge', lazy=True)
+    passed: bool = db.Column(db.Boolean, default=True)
 
     def create_badges(self):
         """Create all badges for this run."""
@@ -106,11 +107,13 @@ class Badge(db.Model):  # pylint: disable=R0902
     labelColor: str = db.Column(db.String(50), nullable=False, default='green')
     style: str = db.Column(db.String(50), nullable=False, default='for-the-badge')
 
-    def __init__(self, run_id, label='coverage-total', message='lyle') -> None:
+    def __init__(self, run_id, label='Tests', message='Failing', passed=True) -> None:
         """Create a new badge."""
         self.run_id = run_id
         self.label = label
         self.message = message
+        if not passed:
+            self.color = 'red'
 
 
 class BadgeSchema(ma.Schema):

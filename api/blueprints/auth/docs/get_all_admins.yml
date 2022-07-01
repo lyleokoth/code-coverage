@@ -1,0 +1,10 @@
+description: Get all the admins
+tags:
+  - Administrator
+produces:
+  - "application/json"
+get:
+  description: None
+responses:
+  200:
+    description: When all admins are successfully obtained.
