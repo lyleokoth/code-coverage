@@ -87,8 +87,8 @@ def get_badge_markdown():
     return badge_markdown
 
 
-@api.route('/badge/<username>/<projectname>/<badgename>', methods=['GET'])
-def get_badge(username, projectname, badgename):  # pylint: disable=R0911
+@api.route('/badge/<id>', methods=['GET'])
+def get_badge():  # pylint: disable=R0911
     """Generate JSON data for the shields.io server for a single badge.
 
     Parameters
@@ -109,55 +109,55 @@ def get_badge(username, projectname, badgename):  # pylint: disable=R0911
             "style": "style-name"
             }
     """
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        data = {
-            "schemaVersion": 1,
-            "label": "error",
-            "message": "invalid username",
-            "color": "red",
-            "labelColor": "green",
-            "style": "for-the-badge"
-        }
-        return jsonify(data), 400
+    # user = User.query.filter_by(username=username).first()
+    # if not user:
+    #     data = {
+    #         "schemaVersion": 1,
+    #         "label": "error",
+    #         "message": "invalid username",
+    #         "color": "red",
+    #         "labelColor": "green",
+    #         "style": "for-the-badge"
+    #     }
+    #     return jsonify(data), 400
 
-    projectname = f'{username}/{projectname}'
-    project = Project.query.filter_by(name=projectname).first()
-    if not project:
-        data = {
-            "schemaVersion": 1,
-            "label": "error",
-            "message": "invalid projectname",
-            "color": "red",
-            "labelColor": "green",
-            "style": "for-the-badge"
-        }
-        return jsonify(data), 400
+    # projectname = f'{username}/{projectname}'
+    # project = Project.query.filter_by(name=projectname).first()
+    # if not project:
+    #     data = {
+    #         "schemaVersion": 1,
+    #         "label": "error",
+    #         "message": "invalid projectname",
+    #         "color": "red",
+    #         "labelColor": "green",
+    #         "style": "for-the-badge"
+    #     }
+    #     return jsonify(data), 400
 
-    run = Run.query.filter_by(project_id=project.id).first()
-    if not run:
-        data = {
-            "schemaVersion": 1,
-            "label": "error",
-            "message": "missing test data",
-            "color": "red",
-            "labelColor": "green",
-            "style": "for-the-badge"
-        }
-        return jsonify(data), 400
+    # run = Run.query.filter_by(project_id=project.id).first()
+    # if not run:
+    #     data = {
+    #         "schemaVersion": 1,
+    #         "label": "error",
+    #         "message": "missing test data",
+    #         "color": "red",
+    #         "labelColor": "green",
+    #         "style": "for-the-badge"
+    #     }
+    #     return jsonify(data), 400
 
-    if badgename not in ['coverage-total']:
-        data = {
-            "schemaVersion": 1,
-            "label": "error",
-            "message": "Invalid badge name",
-            "color": "red",
-            "labelColor": "green",
-            "style": "for-the-badge"
-        }
-        return jsonify(data), 400
+    # if badgename not in ['coverage-total']:
+    #     data = {
+    #         "schemaVersion": 1,
+    #         "label": "error",
+    #         "message": "Invalid badge name",
+    #         "color": "red",
+    #         "labelColor": "green",
+    #         "style": "for-the-badge"
+    #     }
+    #     return jsonify(data), 400
 
-    run_id = Run.query.filter_by(project_id=project.id).order_by(desc(Run.id)).first().id
+    run_id = Run.query.filter_by(project_id=1).order_by(desc(Run.id)).first().id
 
     badge = Badge.query.filter_by(run_id=run_id).first()
     # print(badge)
