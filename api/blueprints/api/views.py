@@ -87,8 +87,8 @@ def get_badge_markdown():
     return badge_markdown
 
 
-@api.route('/badge', methods=['GET'])
-def get_badge():  # pylint: disable=R0911
+@api.route('/badge/<username>/<projectname>/<badgename>', methods=['GET'])
+def get_badge(username, projectname):  # pylint: disable=R0911
     """Generate JSON data for the shields.io server for a single badge.
 
     Parameters
@@ -109,43 +109,6 @@ def get_badge():  # pylint: disable=R0911
             "style": "style-name"
             }
     """
-    if not request.args.get('username'):
-        data = {
-            "schemaVersion": 1,
-            "label": "error",
-            "message": "missing username",
-            "color": "red",
-            "labelColor": "green",
-            "style": "for-the-badge"
-        }
-        return jsonify(data), 400
-
-    if not request.args.get('projectname'):
-        data = {
-            "schemaVersion": 1,
-            "label": "error",
-            "message": "missing projectname",
-            "color": "red",
-            "labelColor": "green",
-            "style": "for-the-badge"
-        }
-        return jsonify(data), 400
-
-    if not request.args.get('badgename'):
-        data = {
-            "schemaVersion": 1,
-            "label": "error",
-            "message": "missing badgename",
-            "color": "red",
-            "labelColor": "green",
-            "style": "for-the-badge"
-        }
-        return jsonify(data), 400
-
-    username = request.args.get('username')
-    projectname = request.args.get('projectname')
-    # badgename = request.args.get('badgename')
-
     user = User.query.filter_by(username=username).first()
     if not user:
         data = {
