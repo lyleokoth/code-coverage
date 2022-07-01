@@ -7,7 +7,7 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from sqlalchemy import desc
 
-from ..auth.models import User
+from ..auth.models import User, UserSchema
 from .helpers import handle_post_data
 from .models import Badge, BadgeSchema, Project, ProjectSchema, Run, RunSchema
 
@@ -36,9 +36,9 @@ def post_data():
 # @jwt_required()
 def get_user_data():
     """Get the test data for all the projects."""
-    projects = Project.query.all()
-    projects_schema = ProjectSchema(many=True)
-    return jsonify(projects_schema.dump(projects)), 200
+    user = User.query.filter_by(id=1).first()
+    user_schema = UserSchema()
+    return jsonify(user_schema.dump(user)), 200
 
 
 @api.route('/data/project', methods=['GET'])
@@ -82,9 +82,13 @@ def get_badge_markdown():
     Supply the badge-name, project-name.
     """
     shields_io_endpoint = 'https://img.shields.io/endpoint'
-    styling = 'flat-square'
+    styling = 'style=plastic'
     url = 'https%3A%2F%2Foryks-code-coverage-dev.herokuapp.com%2Fapi%2Fbadge'
-    badge_markdown = f"![Custom badge]({shields_io_endpoint}?{styling}&url={url})"
+    username = 'lyleokoth'
+    projectname = 'flask-social-auth'
+    badgename = 'coverage-total'
+    base = '![Custom badge]'
+    badge_markdown = f"{base}({shields_io_endpoint}?{styling}&url={url}%2F{username}%2F{projectname}%2F{badgename})"
     return badge_markdown
 
 
