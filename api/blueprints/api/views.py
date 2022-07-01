@@ -88,8 +88,8 @@ def get_badge_markdown():
     return badge_markdown
 
 
-@api.route('/badge/<id>', methods=['GET'])
-def get_badge():  # pylint: disable=R0911
+@api.route('/badge/<user_id>', methods=['GET'])
+def get_badge(user_id):  # pylint: disable=R0911
     """Generate JSON data for the shields.io server for a single badge.
 
     Parameters
@@ -110,6 +110,7 @@ def get_badge():  # pylint: disable=R0911
             "style": "style-name"
             }
     """
+    print(user_id)
     username = 'lyleokoth'
     projectname = 'lyleokoth/flask-social-auth'
     badgename = 'coverage-total'
